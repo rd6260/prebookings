@@ -169,7 +169,7 @@ function PaymentDrawer({
                   </span>
                 </div>
                 <span className="text-base font-black text-[hsl(181_100%_9%)] ml-2 flex-shrink-0">
-                  {p.currency} {p.amount ? (parseFloat(p.amount) / 100).toFixed(2) : "—"}
+                  {p.currency} {p.amount ? (parseFloat(p.amount) ).toFixed(2) : "—"}
                 </span>
               </div>
 
