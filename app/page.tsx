@@ -179,8 +179,6 @@ function PaymentDrawer({
                   { label: "Method", value: p.method },
                   { label: "Currency", value: p.currency },
                   { label: "Booking Fee", value: p.booking_fee },
-                  { label: "Razorpay Fee", value: p.razorpay_fee },
-                  { label: "GST / Tax", value: p.tax },
                   { label: "Created", value: p.created_at ? new Date(p.created_at).toLocaleString() : "—" },
                 ].map((field) => (
                   <div key={field.label}>
