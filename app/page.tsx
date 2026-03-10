@@ -23,6 +23,7 @@ interface Booking {
   ticket_count: number;
   ticket_type: "Public" | "Industry";
   is_paid: boolean;
+  created_at: string;
 }
 
 interface Payment {
@@ -56,6 +57,20 @@ const STATUS_STYLES: Record<string, { pill: string; dot: string }> = {
 
 function getStatusStyle(s: string) {
   return STATUS_STYLES[s?.toLowerCase()] ?? STATUS_STYLES.default;
+}
+
+function formatIST(dateStr: string): string {
+  if (!dateStr) return "—";
+  const date = new Date(dateStr);
+  return new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  }).format(date);
 }
 
 function StatusBadge({ status }: { status: string }) {
@@ -229,7 +244,7 @@ export default function BookingsPage() {
       .from("bookings")
       .select("*")
       .eq("is_paid", true)
-      .order("id", { ascending: false })
+      .order("created_at", { ascending: false })
       .then(({ data }) => {
         const filtered = (data ?? []).filter(
           (b) =>
@@ -326,6 +341,12 @@ export default function BookingsPage() {
                       <p className="text-xs text-[hsl(181_100%_9%/0.4)] font-mono mt-0.5 truncate">
                         {b.id.slice(0, 12)}…
                       </p>
+                      <div className="flex items-center gap-1 mt-1">
+                        <span className="material-symbols-outlined text-[hsl(181_100%_9%/0.35)]" style={{ fontSize: "12px" }}>schedule</span>
+                        <p className="text-[11px] text-[hsl(181_100%_9%/0.45)] font-semibold">
+                          {formatIST(b.created_at)}
+                        </p>
+                      </div>
                     </div>
                     <span
                       className={`flex-shrink-0 inline-block px-2.5 py-1 rounded-full text-xs font-bold border ${b.ticket_type === "Industry"
